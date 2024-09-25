@@ -42,8 +42,12 @@ const page = () => {
 
   return (
     <>
-      <div className='d-flex align-items-center justify-content-center' style={{ height: "100vh" }}>
-        <div style={{ width: "500px" }} className='border p-5 rounded'>
+      <div className='d-flex align-items-center justify-content-center flex-column bg-light' style={{ height: "100vh" }}>
+        <div className='d-flex justify-content-center mb-2'>
+          <img src="/assets/images/logo1.png" alt="" height="45px" />
+          <img src="/assets/images/logo2.png" alt="" height="50px" />
+        </div>
+        <div style={{ width: "500px",backgroundColor:"white",borderRadius:"8px" }} className='px-5 py-4 shadow'>
           <div className='my-3'>
             <label htmlFor="" className='form-label'><h6>Email</h6></label>
             <input type="email" name="email" onChange={handleLoginDetails} className='form-control' placeholder='Enter your email' />
@@ -55,7 +59,7 @@ const page = () => {
           </div>
           <div className='d-flex justify-content-between'>
             <button onClick={handleLogin} className='btn btn-secondary mt-2'>Login</button>
-            <Link href="/admin-login/change-password" className='mt-4 text-primary' style={{ fontSize: "12px" }}><em>FORGOT PASSWORD?</em></Link>
+            {/* <Link href="/admin-login/change-password" className='mt-4 text-primary' style={{ fontSize: "12px" }}><em>FORGOT PASSWORD?</em></Link> */}
           </div>
         </div>
       </div>
