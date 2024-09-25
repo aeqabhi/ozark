@@ -2,47 +2,48 @@
 
 import { BASE_URL } from "@/_config/config";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { DataTable } from "simple-datatables";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { DataTable } from "simple-datatables";
 
 export default function page() {
-  const [blogData, setBlogData] = useState();
+
+  const [data, setData] = useState();
 
   useEffect(() => {
-    getBlogData();
-  }, []);
+    getCategoryData();
+  },[])
 
-  const getBlogData = async () => {
+  const getCategoryData = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/blogs/get-blogs`);
+      const res = await axios.get(`${BASE_URL}/enquiry/get_enquiry`);
       if (res.data.status === 1) {
-        setBlogData(res.data.data);
+        setData(res.data.data)
       }
     } catch (err) {
       console.log(err);
     }
   }
 
+
   useEffect(() => {
-    if (blogData) {
+    if (data) {
       new DataTable("#myTable");
     }
-  }, [blogData]);
+  }, [data]);
 
 
   const handleDelete = async (id) => {
     try {
-      const res = await axios.post(`${BASE_URL}/blogs/delete_blog`, {
+      const res = await axios.post(`${BASE_URL}/category/delete_blog`, {
         id: id
       })
       console.log(res.data);
       if (res.data.status === 1) {
         toast.success(res.data.message);
-        setBlogData(res.data.data);
+        setData(res.data.data);
       }
-      console.log(blogData)
     } catch (err) {
       console.log(err);
     }
@@ -56,7 +57,7 @@ export default function page() {
           <div className="col-md-12 col-xl-12">
             <div className="main-card mb-3 card">
               <div className="card-header">
-                View Blogs
+                View Enquiries
 
               </div>
               <div className="table-responsive">
@@ -67,32 +68,39 @@ export default function page() {
                   <thead>
                     <tr>
                       <th className="text-center">sr. no.</th>
-                      <th className="">Heading</th>
-                      <th className="">Blog URL</th>
-                      <th className="text-center">Actions</th>
+                      <th className="text-center">name</th>
+                      <th className="text-center">email</th>
+                      <th className="text-center">phone</th>
+                      <th className="text-center">subject</th>
+                      <th className="text-center">message</th>
                     </tr>
                   </thead>
                   <tbody>
                     {
-                      blogData?.map((ele, ind) => (
+                      data?.map((ele, ind) => (
                         <tr>
                           <td className="text-center text-muted">#{ind + 1}</td>
                           <td>
                             <div className="widget-heading"></div>
-                            {ele.heading}
+                            {ele.name}
                           </td>
                           <td>
                             <div className="widget-heading"></div>
-                            {ele.blog_url}
+                            {ele.email}
                           </td>
-
-                          <td className="text-center">
-                            <Link href={{
-                              pathname: "/admin/blogs/edit",
-                              query: { id: ele._id }
-                            }} className="btn btn-primary btn-sm mr-2">Edit</Link>
-                            <Link href="#" className="btn btn-danger btn-sm" onClick={() => handleDelete(ele._id)}>Delete</Link>
+                          <td>
+                            <div className="widget-heading"></div>
+                            {ele.phone}
                           </td>
+                          <td>
+                            <div className="widget-heading"></div>
+                            {ele.subject}
+                          </td>
+                          <td>
+                            <div className="widget-heading"></div>
+                            {ele.message}
+                          </td>
+                          
                         </tr>
                       ))
                     }

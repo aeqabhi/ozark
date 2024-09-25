@@ -158,21 +158,11 @@ export default function Menu() {
               </li>
 
               <li>
-                <Link href="/admin" className={currentPath === '/backend' ? 'mm-active' : ''}>
+                <Link href="/admin/enquiry" className={currentPath === '/backend' ? 'mm-active' : ''}>
                   <i className="metismenu-icon pe-7s-diamond"></i>
                   Enquiry
                 </Link>
               </li>
-
-              <li>
-                <Link href="/admin" className={currentPath === '/backend' ? 'mm-active' : ''}>
-                  <i className="metismenu-icon pe-7s-diamond"></i>
-                  About
-                </Link>
-              </li>
-
-
-
             </ul>
           </div>
         </div>

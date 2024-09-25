@@ -13,7 +13,7 @@ export default function page() {
 
   useEffect(() => {
     getCategoryData();
-  })
+  },[])
 
   const getCategoryData = async () => {
     try {
@@ -36,7 +36,7 @@ export default function page() {
 
   const handleDelete = async (id) => {
     try {
-      const res = await axios.post(`${BASE_URL}/category/delete_category`, {
+      const res = await axios.post(`${BASE_URL}/category/delete_blog`, {
         id: id
       })
       console.log(res.data);
