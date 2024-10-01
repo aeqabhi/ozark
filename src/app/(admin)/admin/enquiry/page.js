@@ -68,11 +68,10 @@ export default function page() {
                   <thead>
                     <tr>
                       <th className="text-center">sr. no.</th>
-                      <th className="text-center">name</th>
-                      <th className="text-center">email</th>
-                      <th className="text-center">phone</th>
-                      <th className="text-center">subject</th>
-                      <th className="text-center">message</th>
+                      <th className="">Name</th>
+                      <th className="">Contact</th>
+                      <th className="">Subject</th>
+                      <th className="">Message</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -83,13 +82,13 @@ export default function page() {
                           <td>
                             <div className="widget-heading"></div>
                             {ele.name}
+                        
                           </td>
                           <td>
                             <div className="widget-heading"></div>
+                          
                             {ele.email}
-                          </td>
-                          <td>
-                            <div className="widget-heading"></div>
+                            <br />
                             {ele.phone}
                           </td>
                           <td>
