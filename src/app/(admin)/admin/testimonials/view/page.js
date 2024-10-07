@@ -6,6 +6,7 @@ import Link from "next/link";
 import axios from "axios";
 import { BASE_URL } from "@/_config/config";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export default function page() {
   const [testimonialsData, setTestimonialsData] = useState();
@@ -30,12 +31,61 @@ export default function page() {
 
   const handleDelete = async (id) => {
     try {
-      const res = await axios.post(`${BASE_URL}/testimonials/delete_testimonials`, { id: id })
-      if (res.data.status === 1) {
-        toast.success(res.data.message);
-        setTestimonialsData(res.data.data);
-      } else {
-        toast.err(res.data.message);
+      const result = await Swal.fire({
+        title: "Are you sure !",
+        icon: "warning",
+        width: "400px",
+        showCancelButton: true,
+        cancelButtonText: "Cancel",
+        showConfirmButton: true,
+        confirmButtonText: "Delete",
+        allowOutsideClick: false,
+        customClass: {
+          confirmButton: "btn btn-primary",
+          cancelButton: "btn btn-secondary"
+        }
+      })
+
+      if (result.isConfirmed) {
+        const res = await axios.post(`${BASE_URL}/testimonials/delete_testimonials`, { id: id })
+        if (res.data.status === 1) {
+          toast.success(res.data.message);
+          setTestimonialsData(res.data.data);
+        } else {
+          toast.err(res.data.message);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const handleChangeStatus = async (id, status) => {
+    try {
+      const result = await Swal.fire({
+        title: "Are you sure !",
+        icon: "warning",
+        width: "400px",
+        showCancelButton: true,
+        cancelButtonText: "Cancel",
+        showConfirmButton: true,
+        confirmButtonText: `${status ? "Decticate" : "Activate"}`,
+        allowOutsideClick: false,
+        customClass: {
+          confirmButton: "btn btn-primary",
+          cancelButton: "btn btn-secondary"
+        }
+      })
+
+      if (result.isConfirmed) {
+        const res = await axios.post(`${BASE_URL}/testimonials/change_status`, { id: id, status: status });
+        console.log(res.data);
+        if (res.data.status === 1) {
+          // toast.success(res.data.message);
+          setTestimonialsData(res.data.data);
+        } else {
+          toast.error(res.data.message);
+        }
       }
     } catch (err) {
       console.log(err);
@@ -62,7 +112,7 @@ export default function page() {
                     <tr>
                       <th className="text-center">#</th>
                       <th>Name</th>
-                      <th className="text-center">Image</th>
+                      <th className="">Designation</th>
                       <th className="text-center">Status</th>
                       <th className="text-center">Actions</th>
                     </tr>
@@ -73,12 +123,13 @@ export default function page() {
                         <tr>
                           <td className="text-center text-muted">#{ind + 1}</td>
                           <td>{ele.name}</td>
+                          <td>{ele.designation}</td>
+
                           <td className="text-center">
-                            <img src={`${BASE_URL}/uploads/${ele.image}`}
-                              alt="error" width="50px" />
-                          </td>
-                          <td className="text-center">
-                            <div className="badge badge-warning">Active</div>
+                            {
+                              ele.status === true ? <div className="badge badge-warning" style={{ cursor: "pointer" }} onClick={() => handleChangeStatus(ele._id, ele.status)}>Active</div> : <div className="badge badge-secondary" style={{ cursor: "pointer" }} onClick={() => handleChangeStatus(ele._id, ele.status)}>Inactive</div>
+                            }
+
                           </td>
                           <td className="text-center">
                             <Link href={{

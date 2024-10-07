@@ -33,7 +33,7 @@ export default function page() {
         setInputData({ ...inputData, [name]: value });
     }
 
-    console.log(inputData);
+
 
     const handleCreateCategory = async (e) => {
         try {
@@ -49,6 +49,7 @@ export default function page() {
             console.log(err);
         }
     }
+    
     return (
         <>
             <div className="app-main__inner">
@@ -95,7 +96,7 @@ export default function page() {
                                         <div className="col-md-6">
                                             <div className="position-relative form-group">
                                                 <label>
-                                                    SubCategory URL
+                                                    Subcategory URL
                                                 </label>
                                                 <input
                                                     name="subcategory_slug"

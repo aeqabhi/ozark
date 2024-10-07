@@ -11,13 +11,16 @@ import { useRouter } from "next/navigation";
 export default function page() {
 
     const editor = useRef(null);
-    const [content, setContent] = useState();
+    const [inputValue, setInputvalue] = useState({
+        heading: "", blog_url: "", blog_date: "",short_description: "", title: "", meta_description: ""
+    });
+    const [imageData, setImageData] = useState();
+    const [content, setContent] = useState("");
     const config = {
         height: 400,
     };
-
-    const [inputValue, setInputvalue] = useState({});
     const router = useRouter();
+
 
     const handleInputValues = (e) => {
         const name = e.target.name;
@@ -29,26 +32,32 @@ export default function page() {
         try {
             e.preventDefault();
             const formdata = new FormData();
-            // formdata.append("heading",inputValue.heading);
-            // formdata.append("blog_url",inputValue.blog_url);
-            // formdata.append("blog_date",inputValue.blog_date);
-            // formdata.append("blog_date",inputValue.blog_date);
-            // formdata.append("short_description",inputValue.short_description);
-            // formdata.append("meta_description",inputValue.meta_description);
-            // formdata.append("description",content);
-            // formdata.append("image",imageData);
+            formdata.append("heading", inputValue.heading);
+            formdata.append("blog_url", inputValue.blog_url);
+            formdata.append("blog_date", inputValue.blog_date);
+            formdata.append("short_description", inputValue.short_description);
+            formdata.append("title", inputValue.title);
+            formdata.append("meta_description", inputValue.meta_description);
+            formdata.append("description", content);
+            formdata.append("image", imageData);
 
-            const res = await axios.post(`${BASE_URL}/blogs/create-blog`, inputValue);
+            const res = await axios.post(`${BASE_URL}/blogs/create-blog`, formdata);
             if (res.data.status === 1) {
                 toast.success(res.data.message);
-                router.push("/admin/blogs/view")    
-            }else{
+                router.push("/admin/blogs/view")
+            } else {
                 toast.error(res.data.message);
             }
         } catch (err) {
             console.log(err);
         }
     }
+
+    const handleImageData = (e) => {
+        setImageData(e.target.files[0]);
+    }
+
+    console.log(imageData);
 
 
     return (
@@ -89,10 +98,37 @@ export default function page() {
                                                 <input
                                                     name="blog_url"
                                                     id="exampleEmail11"
-                                                    placeholder="Enter the Testimonial url"
+                                                    placeholder="Enter the blog url"
                                                     type="text"
                                                     className="form-control"
                                                     onChange={handleInputValues}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="position-relative form-group">
+                                                <label>
+                                                    Blog Date
+                                                </label>
+                                                <input
+                                                    name="blog_date"
+                                                    type="date"
+                                                    className="form-control"
+                                                    onChange={handleInputValues}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="position-relative form-group">
+                                                <label>
+                                                    Image
+                                                </label>
+                                                <input
+                                                    name="Image"
+                                                    type="file"
+                                                    className="form-control"
+                                                    onChange={handleImageData}
+                                                    accept="image/*"
                                                 />
                                             </div>
                                         </div>
@@ -108,18 +144,8 @@ export default function page() {
                                                 </textarea>
                                             </div>
                                         </div>
-                                        <div className="col-md-6 mt-3">
-                                            <div className="position-relative form-group">
-                                                <label>
-                                                    Blog Date
-                                                </label>
-                                                <input
-                                                    name="blog_date"
-                                                    type="date"
-                                                    className="form-control"
-                                                    onChange={handleInputValues}
-                                                />
-                                            </div>
+                                        <div className="col-md-6">
+
                                         </div>
                                         <div className="col-md-6">
                                             <div className="position-relative form-group">

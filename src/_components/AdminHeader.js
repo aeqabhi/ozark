@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +23,9 @@ export default function Header() {
         <div className="app-header__logo">
           <div className="ozark-logo">
             {/* <img src="/assets/images/logo1.png" alt="error" /> */}
-            <img src="/assets/images/logo2.png" alt="error" />
+            <Link href="/">
+              <img src="/assets/images/logo2.png" alt="error" />
+            </Link>
           </div>
         </div>
         <div className="app-header__mobile-menu">

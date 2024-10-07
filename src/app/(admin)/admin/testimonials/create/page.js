@@ -62,11 +62,11 @@ export default function page() {
                                         <div className="col-md-6">
                                             <div className="position-relative form-group">
                                                 <label>
-                                                    Client Name
+                                                    Name
                                                 </label>
                                                 <input
                                                     name="client_name"
-                                                    placeholder="Enter the client name"
+                                                    placeholder="Enter the name"
                                                     type="text"
                                                     className="form-control"
                                                     onChange={handleInputChange}

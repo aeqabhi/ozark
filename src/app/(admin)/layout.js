@@ -45,7 +45,8 @@ export default function AdminLayout({ children }) {
             </div>
           </div>
         </div>
-        <ToastContainer />
+        <ToastContainer 
+        autoClose={2000}/>
       </body>
     </html>
   );

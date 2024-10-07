@@ -15,6 +15,9 @@ export default function CategoryEdit() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const id = searchParams.get("id");
+    const config = {
+        height: 400,
+    };
 
 
     const handleInputData = (e) => {
@@ -180,6 +183,7 @@ export default function CategoryEdit() {
                                                             ref={editor}
                                                             value={content}
                                                             tabIndex={1}
+                                                            config={config}
                                                             onChange={(newContent) => setContent(newContent)}
                                                         />
                                                     </div>

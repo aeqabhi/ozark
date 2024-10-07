@@ -12,6 +12,9 @@ export default function page() {
 
     const editor = useRef(null);
     const [content, setContent] = useState('');
+    const config = {
+        height: 400,
+    };
     const [inputData, setInputData] = useState({
         category_name: "", category_url: "", meta_desc: "",short_desc: "", meta_title: "", meta_desc: ""
     });
@@ -158,6 +161,7 @@ export default function page() {
                                                 <JoditEditor
                                                     ref={editor}
                                                     value={content}
+                                                    config={config}
                                                     tabIndex={1}
                                                     onChange={(newContent) => setContent(newContent)}
                                                 />

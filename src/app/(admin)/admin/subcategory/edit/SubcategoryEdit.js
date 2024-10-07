@@ -114,7 +114,7 @@ export default function SubCategoryEdit() {
                                         <div className="col-md-6">
                                             <div className="position-relative form-group">
                                                 <label>
-                                                    SubCategory URL
+                                                    Subcategory URL
                                                 </label>
                                                 <input
                                                     name="subcategory_slug"

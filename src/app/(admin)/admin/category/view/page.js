@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { DataTable } from "simple-datatables";
+import Swal from "sweetalert2";
 
 export default function page() {
 
@@ -13,7 +14,7 @@ export default function page() {
 
   useEffect(() => {
     getCategoryData();
-  },[])
+  }, [])
 
   const getCategoryData = async () => {
     try {
@@ -35,17 +36,62 @@ export default function page() {
 
 
   const handleDelete = async (id) => {
-    try {
-      const res = await axios.post(`${BASE_URL}/category/delete_blog`, {
-        id: id
-      })
-      console.log(res.data);
-      if (res.data.status === 1) {
-        toast.success(res.data.message);
-        setData(res.data.data);
+
+    const result = await Swal.fire({
+      icon: "warning",
+      width: "400px",
+      title: "Are you sure?",
+      allowOutsideClick: false,
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: "Delete",
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-outline-secondary",
       }
-    } catch (err) {
-      console.log(err);
+    })
+
+    if (result.isConfirmed) {
+      try {
+        const res = await axios.post(`${BASE_URL}/category/delete_category`, {
+          id: id
+        })
+        if (res.data.status === 1) {
+          toast.success(res.data.message);
+          setData(res.data.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+
+  const handleChangeStatus = async (id, status) => {
+    const result = await Swal.fire({
+      icon: "warning",
+      width: "400px",
+      title: "Are you sure?",
+      allowOutsideClick: false,
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: `${status === true ? "Deactivate" : "Activate"}`,
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-outline-secondary",
+      }
+    })
+    if (result.isConfirmed) {
+      try {
+        const res = await axios.post(`${BASE_URL}/category/change_status`, {
+          id: id,
+          status: status
+        })
+        if (res.data.status === 1) {
+          setData(res.data.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 
@@ -79,18 +125,25 @@ export default function page() {
                         <tr>
                           <td className="text-center text-muted">#{ind + 1}</td>
                           <td>
-                            <div className="widget-heading"></div>
+                            <div className="widget-heading "></div>
                             {ele.category_name}
                           </td>
                           <td className="text-center">
-                            <div className="badge badge-warning">Active</div>
+                            {
+                              ele.status === true ? <div className="badge badge-warning" style={{ cursor: "pointer" }} onClick={() => handleChangeStatus(ele._id, ele.status)}>Active</div> : <div className="badge badge-secondary" style={{ cursor: "pointer" }} onClick={() => handleChangeStatus(ele._id, ele.status)}>Inactive</div>
+                            }
+
                           </td>
                           <td className="text-center">
                             <Link href={{
                               pathname: "/admin/category/edit",
                               query: { id: ele._id }
                             }} className="btn btn-primary btn-sm mr-2">Edit</Link>
-                            <Link href="#" className="btn btn-danger btn-sm" onClick={() => handleDelete(ele._id)}>Delete</Link>
+                            <Link href="#" className="btn btn-danger btn-sm  mr-2" onClick={() => handleDelete(ele._id)}>Delete</Link>
+                            {/* {
+                              ele.status === true ? <Link href="#" className="btn btn-outline-success btn-sm" onClick={() => handleStatus(ele._id, ele.status)}><i class="fas fa-check" ></i></Link> :
+                                <Link href="#" className="btn btn-outline-danger btn-sm" onClick={() => handleStatus(ele._id, ele.status)}><i class="fas fa-times" style={{ padding: '2px' }} ></i></Link>
+                            } */}
                           </td>
                         </tr>
                       ))

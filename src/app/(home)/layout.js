@@ -18,14 +18,14 @@ export default function HomeLayout({ children }) {
       <head>
         <link rel="shortcut icon" href="/assets/img/favicons/favicon-96x96.png" type="image/x-icon" />
         <link rel="preconnect" href="https://fonts.googleapis.com/" />
-        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossOrigin />
         <link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;500;600;700&amp;family=Fira+Sans:wght@400;500&amp;display=swap" rel="stylesheet" />
-
       </head>
       <body>
-        <Header />
+        {/* <Header />
         {children}
-        <Footer />
+        <Footer /> */}
+        welcome to OZARK
       </body>
     </html>
   );
