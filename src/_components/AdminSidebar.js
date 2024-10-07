@@ -114,6 +114,28 @@ export default function Menu() {
               </li>
 
               <li>
+                <a href="#" onClick={() => handleMenu(5)}>
+                  <i className="metismenu-icon pe-7s-diamond"></i>
+                  Services
+                  <i className="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                </a>
+                <ul className={activeId === 5 ? 'mm-collapse mm-show' : 'mm-collapse'}>
+                  <li>
+                    <Link href="/admin/services/create">
+                      <i className="metismenu-icon"></i>
+                      Create
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/admin/services/view">
+                      <i className="metismenu-icon"></i>
+                      View
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+
+              <li>
                 <a href="#" onClick={() => handleMenu(3)}>
                   <i className="metismenu-icon pe-7s-diamond"></i>
                   Testimonials

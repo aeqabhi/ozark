@@ -3,7 +3,7 @@ import React from 'react'
 const page = () => {
   return (
     <>
-      <section class="">
+      {/* <section class="">
         <div>
           <div class="home">
             <video autoPlay muted loop id="myVideo">
@@ -97,9 +97,9 @@ const page = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
-       
+       Welcome to Ozark
     </>
   )
 }

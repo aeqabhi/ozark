@@ -23,9 +23,9 @@ export default function HomeLayout({ children }) {
       </head>
       <body>
         {/* <Header />
-        {children}
         <Footer /> */}
-        welcome to OZARK
+        {children}
+       
       </body>
     </html>
   );
