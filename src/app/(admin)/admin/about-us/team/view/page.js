@@ -13,12 +13,13 @@ export default function page() {
   const [data, setData] = useState();
 
   useEffect(() => {
-    getCategoryData();
+    getTeamData();
   }, [])
 
-  const getCategoryData = async () => {
+  const getTeamData = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/category/get_all_categories`);
+      const res = await axios.get(`${BASE_URL}/about/get_all_team_members`);
+      console.log(res.data);
       if (res.data.status === 1) {
         setData(res.data.data)
       }
@@ -53,7 +54,7 @@ export default function page() {
 
     if (result.isConfirmed) {
       try {
-        const res = await axios.post(`${BASE_URL}/category/delete_category`, {
+        const res = await axios.post(`${BASE_URL}/about/delete_team_member`, {
           id: id
         })
         if (res.data.status === 1) {
@@ -82,12 +83,13 @@ export default function page() {
     })
     if (result.isConfirmed) {
       try {
-        const res = await axios.post(`${BASE_URL}/category/change_status`, {
+        const res = await axios.post(`${BASE_URL}/about/change_status`, {
           id: id,
           status: status
         })
         if (res.data.status === 1) {
           setData(res.data.data);
+          toast.success(res.data.message);
         }
       } catch (err) {
         console.log(err);
@@ -103,8 +105,7 @@ export default function page() {
           <div className="col-md-12 col-xl-12">
             <div className="main-card mb-3 card">
               <div className="card-header">
-                View Categories
-
+                View Banners
               </div>
               <div className="table-responsive">
                 <table
@@ -114,9 +115,11 @@ export default function page() {
                   <thead>
                     <tr>
                       <th className="text-center">sr. no.</th>
-                      <th className="">Category</th>
-                      <th className="text-center">Status</th>
-                      <th className="text-center">Actions</th>
+                      <th className="">Name</th>
+                      <th className="">Designation</th>
+                      <th className="">Image</th>
+                      <th className="text-center">status</th>
+                      <th className="text-center">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -125,25 +128,29 @@ export default function page() {
                         <tr>
                           <td className="text-center text-muted">#{ind + 1}</td>
                           <td>
-                            <div className="widget-heading "></div>
-                            {ele.category_name}
+                            <div className="widget-heading ">{ele.name}</div>
                           </td>
+                          
+                          <td>
+                            <div className="widget-heading ">{ele.designation}</div>
+                          </td>
+
+                          <td>
+                            <div className="widget-heading "><img src={ele.image} alt="error" width="50px" /></div>
+                          </td>
+
                           <td className="text-center">
                             {
                               ele.status === true ? <div className="badge badge-warning" style={{ cursor: "pointer" }} onClick={() => handleChangeStatus(ele._id, ele.status)}>Active</div> : <div className="badge badge-secondary" style={{ cursor: "pointer" }} onClick={() => handleChangeStatus(ele._id, ele.status)}>Inactive</div>
                             }
-
                           </td>
+
                           <td className="text-center">
                             <Link href={{
-                              pathname: "/admin/category/edit",
+                              pathname: "/admin/about-us/team/edit",
                               query: { id: ele._id }
                             }} className="btn btn-primary btn-sm mr-2">Edit</Link>
                             <Link href="#" className="btn btn-danger btn-sm  mr-2" onClick={() => handleDelete(ele._id)}>Delete</Link>
-                            {/* {
-                              ele.status === true ? <Link href="#" className="btn btn-outline-success btn-sm" onClick={() => handleStatus(ele._id, ele.status)}><i class="fas fa-check" ></i></Link> :
-                                <Link href="#" className="btn btn-outline-danger btn-sm" onClick={() => handleStatus(ele._id, ele.status)}><i class="fas fa-times" style={{ padding: '2px' }} ></i></Link>
-                            } */}
                           </td>
                         </tr>
                       ))

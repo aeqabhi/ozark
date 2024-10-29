@@ -1,65 +1,51 @@
-"use client"
 
+"use client"
+import { useState,useEffect, useRef } from "react";
 import { BASE_URL } from "@/_config/config";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 
 
-
-export default function SubCategoryEdit() {
-    const [inputData, setInputData] = useState();
-    const [categoryData, setCategoryData] = useState();
-    const router = useRouter();
-    const SearchParams = useSearchParams()
-    const id = SearchParams.get("id");
-
+export default function page() {
+    const [inputData, setInputData] = useState({});
+  
 
     useEffect(() => {
-        getCategoryData();
-        getOneSubcategoryData()
+        getData();
     }, [])
 
-    const getCategoryData = async () => {
+    const getData = async () => {
         try {
-            const res = await axios(`${BASE_URL}/category/get_all_categories`);
-            if (res.data.status === 1) {
-                setCategoryData(res.data.data);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    const getOneSubcategoryData = async () => {
-        try {
-            const res = await axios.post(`${BASE_URL}/subcategory/get_one_subcategories`, { id: id });
-            if(res.data.status === 1){
+            const res = await axios.get(`${BASE_URL}/about/vision_values`);
+            console.log(res.data);
+            if (res.data.status == 1) {
                 setInputData(res.data.data);
             }
+
         } catch (err) {
             console.log(err);
         }
     }
 
-    const handleInputChange = (e) => {
+    const handleInputData = (e) => {
         const name = e.target.name;
         const value = e.target.value;
         setInputData({ ...inputData, [name]: value });
     }
 
-    
-
-    const handleUpdateCategory = async (e) => {
+    const handleSubmit = async (e) => {
         try {
             e.preventDefault();
-            inputData.id = id;
-            const res = await axios.post(`${BASE_URL}/subcategory/update_subcategory`, inputData);
+            // const formdata = new FormData();
+            // formdata.append("vision_heading", inputData.vision_heading);
+            // formdata.append("vision_content", inputData.vision_content);
+            // formdata.append("values_heading", inputData.values_heading);
+            // formdata.append("values_content", inputData.values_content);
+            const res = await axios.post(`${BASE_URL}/about/vision_values`, inputData)
             if (res.data.status === 1) {
                 toast.success(res.data.message);
-                router.push("/admin/subcategory/view")
             } else {
                 toast.error(res.data.message);
             }
@@ -67,15 +53,15 @@ export default function SubCategoryEdit() {
             console.log(err);
         }
     }
+
     return (
         <>
             <div className="app-main__inner">
-
                 <div className="row">
                     <div className="col-md-12 col-xl-12">
                         <div className="main-card mb-3 card">
                             <div className="card-header">
-                                Edit Subcategory
+                                vision and values
                             </div>
 
                             <div className="card-body">
@@ -84,65 +70,66 @@ export default function SubCategoryEdit() {
                                         <div className="col-md-6">
                                             <div className="position-relative form-group">
                                                 <label>
-                                                    Select Category
-                                                </label>
-                                                <select className="form-control" name="category_id" onChange={handleInputChange}>
-                                                    <option defaultChecked hidden>select category</option>
-                                                    {
-                                                        categoryData?.map((ele) => (
-                                                            <option value={ele._id}>{ele.category_name}</option>
-                                                        ))
-                                                    }
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="position-relative form-group">
-                                                <label>
-                                                    Subcategory Name
+                                                    Vision Heading
                                                 </label>
                                                 <input
-                                                    name="subcategory_name"
-                                                    placeholder="Enter the subcategory name"
+                                                    onChange={handleInputData}
+                                                    name="vision_heading"
+                                                    placeholder="Enter the heading"
                                                     type="text"
                                                     className="form-control"
-                                                    onChange={handleInputChange}
-                                                    value={inputData?.subcategory_name}
+                                                    value={inputData.vision_heading}
                                                 />
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="position-relative form-group">
                                                 <label>
-                                                    Subcategory URL
+                                                    Values Heading
                                                 </label>
                                                 <input
-                                                    name="subcategory_slug"
+                                                    onChange={handleInputData}
+                                                    name="values_heading"
+                                                    placeholder="Enter the heading"
                                                     type="text"
-                                                    placeholder="Enter the subcategory url"
                                                     className="form-control"
-                                                    onChange={handleInputChange}
-                                                    value={inputData?.subcategory_slug}
+                                                    value={inputData.values_heading}
                                                 />
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="position-relative form-group">
                                                 <label>
-                                                    Short Description
+                                                    Vision Content
                                                 </label>
                                                 <input
-                                                    name="short_desc"
-                                                    placeholder="Enter the short description"
+                                                    onChange={handleInputData}
+                                                    name="vision_content"
                                                     type="text"
+                                                    placeholder="Enter the title"
                                                     className="form-control"
-                                                    onChange={handleInputChange}
-                                                    value={inputData?.short_desc}
+                                                    value={inputData.vision_content}
                                                 />
                                             </div>
                                         </div>
+                                        <div className="col-md-6">
+                                            <div className="position-relative form-group">
+                                                <label>
+                                                    Values Content
+                                                </label>
+                                                <input
+                                                    onChange={handleInputData}
+                                                    name="values_content"
+                                                    type="text"
+                                                    placeholder="Enter the title"
+                                                    className="form-control"
+                                                    value={inputData.values_content}
+                                                />
+                                            </div>
+                                        </div>
+                                    
                                     </div>
-                                    <button className="mt-2 px-3 btn btn-primary" onClick={handleUpdateCategory}>Update</button>
+                                    <button className="mt-2 px-3 btn btn-primary" onClick={handleSubmit}>Submit</button>
                                 </form>
                             </div>
                         </div>

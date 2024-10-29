@@ -13,12 +13,13 @@ export default function page() {
   const [data, setData] = useState();
 
   useEffect(() => {
-    getServicesData();
+    getBannerData();
   }, [])
 
-  const getServicesData = async () => {
+  const getBannerData = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/services/get_all_services`);
+      const res = await axios.get(`${BASE_URL}/banners/get_all_banners`);
+      console.log(res.data);
       if (res.data.status === 1) {
         setData(res.data.data)
       }
@@ -53,7 +54,7 @@ export default function page() {
 
     if (result.isConfirmed) {
       try {
-        const res = await axios.post(`${BASE_URL}/services/delete_service`, {
+        const res = await axios.post(`${BASE_URL}/banners/delete_banner`, {
           id: id
         })
         if (res.data.status === 1) {
@@ -82,13 +83,13 @@ export default function page() {
     })
     if (result.isConfirmed) {
       try {
-        const res = await axios.post(`${BASE_URL}/services/change_status`, {
+        const res = await axios.post(`${BASE_URL}/banners/change_status`, {
           id: id,
           status: status
         })
-        console.log(res.data);
         if (res.data.status === 1) {
           setData(res.data.data);
+          toast.success(res.data.message);
         }
       } catch (err) {
         console.log(err);
@@ -104,8 +105,7 @@ export default function page() {
           <div className="col-md-12 col-xl-12">
             <div className="main-card mb-3 card">
               <div className="card-header">
-                View Services
-
+                View Banners
               </div>
               <div className="table-responsive">
                 <table
@@ -115,9 +115,12 @@ export default function page() {
                   <thead>
                     <tr>
                       <th className="text-center">sr. no.</th>
-                      <th className="">Service</th>
-                      <th className="text-center">Status</th>
-                      <th className="text-center">Actions</th>
+                      <th className="">Title</th>
+                      <th className="">Heading</th>
+                      <th className="" >Content</th>
+                      <th className="">Image</th>
+                      <th className="text-center">status</th>
+                      <th className="text-center">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -126,25 +129,34 @@ export default function page() {
                         <tr>
                           <td className="text-center text-muted">#{ind + 1}</td>
                           <td>
-                            <div className="widget-heading "></div>
-                            {ele.service_name}
+                            <div className="widget-heading ">{ele.heading}</div>
                           </td>
+                          
+                          <td>
+                            <div className="widget-heading ">{ele.title}</div>
+                          </td>
+
+                          <td>
+                            <div className="widget-heading" style={{ maxWidth: "250px", maxHeight: "50px", overflowY: "scroll" }}>{ele.content}</div>
+                          </td>
+
+                          <td>
+                            <div className="widget-heading "><img src={ele.image} alt="error" width="50px" /></div>
+                          </td>
+
                           <td className="text-center">
                             {
                               ele.status === true ? <div className="badge badge-warning" style={{ cursor: "pointer" }} onClick={() => handleChangeStatus(ele._id, ele.status)}>Active</div> : <div className="badge badge-secondary" style={{ cursor: "pointer" }} onClick={() => handleChangeStatus(ele._id, ele.status)}>Inactive</div>
                             }
-
                           </td>
+
                           <td className="text-center">
                             <Link href={{
-                              pathname: "/admin/services/edit",
+                              pathname: "/admin/banner/edit",
                               query: { id: ele._id }
                             }} className="btn btn-primary btn-sm mr-2">Edit</Link>
                             <Link href="#" className="btn btn-danger btn-sm  mr-2" onClick={() => handleDelete(ele._id)}>Delete</Link>
-                            {/* {
-                              ele.status === true ? <Link href="#" className="btn btn-outline-success btn-sm" onClick={() => handleStatus(ele._id, ele.status)}><i class="fas fa-check" ></i></Link> :
-                                <Link href="#" className="btn btn-outline-danger btn-sm" onClick={() => handleStatus(ele._id, ele.status)}><i class="fas fa-times" style={{ padding: '2px' }} ></i></Link>
-                            } */}
+
                           </td>
                         </tr>
                       ))

@@ -1,64 +1,78 @@
-"use client"
 
+"use client"
+import { useState, useRef, useEffect } from "react";
 import { BASE_URL } from "@/_config/config";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 
 export default function page() {
-    const [inputData, setInputData] = useState();
-    const [categoryData, setCategoryData] = useState();
+    const [inputData, setInputData] = useState({});
+    const [imageData, setImageData] = useState();
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const id = searchParams.get("id");
 
     useEffect(() => {
-        getCategoryData();
+        getBannerData();
     }, [])
 
-    const getCategoryData = async () => {
+    const getBannerData = async () => {
         try {
-            const res = await axios(`${BASE_URL}/category/get_all_categories`);
-            if (res.data.status === 1) {
-                setCategoryData(res.data.data);
+            const res = await axios.post(`${BASE_URL}/banners/get_banner_by_id`, { id: id });
+            if (res.data.status == 1) {
+                setInputData(res.data.data);
             }
+            console.log(res.data);
+
         } catch (err) {
             console.log(err);
         }
     }
 
-    const handleInputChange = (e) => {
+
+
+    const handleInputData = (e) => {
         const name = e.target.name;
         const value = e.target.value;
         setInputData({ ...inputData, [name]: value });
     }
 
+    const handleImageData = (e) => {
+        setImageData(e.target.files[0]);
+    }
 
 
-    const handleCreateCategory = async (e) => {
+    const handleUpdateBanner = async (e) => {
         try {
             e.preventDefault();
-            const res = await axios.post(`${BASE_URL}/subcategory/create_subcategory`, inputData);
+            const formdata = new FormData();
+            formdata.append("heading", inputData.heading);
+            formdata.append("title", inputData.title);
+            formdata.append("content", inputData.content);
+            formdata.append("image", imageData);
+            formdata.append("id", id);
+            const res = await axios.post(`${BASE_URL}/banners/update_banner`, formdata)
             if (res.data.status === 1) {
                 toast.success(res.data.message);
-                router.push("/admin/subcategory/view")
-            }else{
+                router.push("/admin/banner/view")
+            } else {
                 toast.error(res.data.message);
             }
         } catch (err) {
             console.log(err);
         }
     }
-    
+
     return (
         <>
             <div className="app-main__inner">
-
                 <div className="row">
                     <div className="col-md-12 col-xl-12">
                         <div className="main-card mb-3 card">
                             <div className="card-header">
-                                Create Subcategory
+                                Update Banner
                             </div>
 
                             <div className="card-body">
@@ -67,62 +81,62 @@ export default function page() {
                                         <div className="col-md-6">
                                             <div className="position-relative form-group">
                                                 <label>
-                                                    Select Category
-                                                </label>
-                                                <select className="form-control" name="category_id" onChange={handleInputChange}>
-                                                    <option defaultChecked hidden>select category</option>
-                                                    {
-                                                        categoryData?.map((ele) => (
-                                                            <option value={ele._id}>{ele.category_name}</option>
-                                                        ))
-                                                    }
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="position-relative form-group">
-                                                <label>
-                                                    Subcategory Name
+                                                    Heading
                                                 </label>
                                                 <input
-                                                    name="subcategory_name"
-                                                    placeholder="Enter the subcategory name"
+                                                    onChange={handleInputData}
+                                                    name="heading"
+                                                    placeholder="Enter the heading"
                                                     type="text"
                                                     className="form-control"
-                                                    onChange={handleInputChange}
+                                                    value={inputData?.heading}
                                                 />
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="position-relative form-group">
                                                 <label>
-                                                    Subcategory URL
+                                                    Title
                                                 </label>
                                                 <input
-                                                    name="subcategory_slug"
+                                                    onChange={handleInputData}
+                                                    name="title"
                                                     type="text"
-                                                    placeholder="Enter the subcategory url"
+                                                    placeholder="Enter the title"
                                                     className="form-control"
-                                                    onChange={handleInputChange}
+                                                    value={inputData?.title}
                                                 />
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="position-relative form-group">
                                                 <label>
-                                                    Short Description
+                                                    Content
+                                                </label>
+                                                <textarea name="content" id="" className="form-control" placeholder="Content" onChange={handleInputData} value={inputData?.content}></textarea>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-4">
+                                            <div className="position-relative form-group">
+                                                <label>
+                                                    Image
                                                 </label>
                                                 <input
-                                                    name="short_desc"
+                                                    onChange={handleImageData}
+                                                    name="image"
                                                     placeholder="Enter the short description"
-                                                    type="text"
+                                                    type="file"
+                                                    accept="image/*"
                                                     className="form-control"
-                                                    onChange={handleInputChange}
                                                 />
                                             </div>
                                         </div>
+                                        <div className="col-md-2 d-flex align-items-center">
+                                            <img src={imageData ? URL.createObjectURL(imageData) : inputData?.image} alt="" width="100px" />
+                                        </div>
+
                                     </div>
-                                    <button className="mt-2 px-3 btn btn-primary" onClick={handleCreateCategory}>Create </button>
+                                    <button className="mt-2 px-3 btn btn-primary" onClick={handleUpdateBanner}>Update</button>
                                 </form>
                             </div>
                         </div>

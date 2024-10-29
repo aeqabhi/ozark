@@ -6,12 +6,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-const JoditEditor = dynamic(()=>import('jodit-react'),{ssr:false})
+const JoditEditor = dynamic(() => import('jodit-react'), { ssr: false })
 
 
 const page = () => {
     const editor = useRef(null);
-    const [content, setContent] = useState('');
+    const [content, setContent] = useState();
     const config = {
         height: 400,
     };
@@ -53,126 +53,132 @@ const page = () => {
             console.log(err);
         }
     }
-  return (
-    <div className="app-main__inner">
-                <div className="row">
-                    <div className="col-md-12 col-xl-12">
-                        <div className="main-card mb-3 card">
-                            <div className="card-header">
-                                Create Service
+    return (
+        <div className="app-main__inner">
+            <div className="row">
+                <div className="col-md-12 col-xl-12">
+                    <div className="main-card mb-3 card">
+                        <div className="card-header">
+                            Create Service
 
-                            </div>
+                        </div>
 
-                            <div className="card-body">
-                                <form >
-                                    <div className="form-row">
-                                        <div className="col-md-6">
-                                            <div className="position-relative form-group">
-                                                <label>
-                                                    Service Name
-                                                </label>
-                                                <input
-                                                    onChange={handleInputData}
-                                                    name="service_name"
-                                                    placeholder="Enter the service name"
-                                                    type="text"
-                                                    className="form-control"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="position-relative form-group">
-                                                <label>
-                                                    Service URL
-                                                </label>
-                                                <input
-                                                    onChange={handleInputData}
-                                                    name="service_url"
-                                                    type="text"
-                                                    placeholder="Enter the service url"
-                                                    className="form-control"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="position-relative form-group">
-                                                <label>
-                                                    Short Description
-                                                </label>
-                                                <input
-                                                    onChange={handleInputData}
-                                                    name="short_description"
-                                                    placeholder="Enter the short description"
-                                                    type="text"
-                                                    className="form-control"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="position-relative form-group">
-                                                <label>
-                                                    Image
-                                                </label>
-                                                <input
-                                                    onChange={handleImageData}
-                                                    name="image"
-                                                    placeholder="Enter the short description"
-                                                    type="file"
-                                                    className="form-control"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="position-relative form-group">
-                                                <label>
-                                                    Meta Title
-                                                </label>
-                                                <input
-                                                    onChange={handleInputData}
-                                                    name="title"
-                                                    placeholder="Enter the short description"
-                                                    type="text"
-                                                    className="form-control"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="position-relative form-group">
-                                                <label>
-                                                    Meta Description
-                                                </label>
-                                                <input
-                                                    onChange={handleInputData}
-                                                    name="meta_description"
-                                                    placeholder="Enter the short description"
-                                                    type="text"
-                                                    className="form-control"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-12">
-                                            <div className="position-relative form-group">
-                                                <label>
-                                                    Description
-                                                </label>
-                                                <JoditEditor
-                                                    ref={editor}
-                                                    value={content}
-                                                    config={config}
-                                                    tabIndex={1}
-                                                    onChange={(newContent) => setContent(newContent)}
-                                                />
-                                            </div>
+                        <div className="card-body">
+                            <form >
+                                <div className="form-row">
+                                    <div className="col-md-6">
+                                        <div className="position-relative form-group">
+                                            <label>
+                                                Service Name
+                                            </label>
+                                            <input
+                                                onChange={handleInputData}
+                                                name="service_name"
+                                                placeholder="Enter the service name"
+                                                type="text"
+                                                className="form-control"
+                                            />
                                         </div>
                                     </div>
-                                    <button className="mt-2 px-3 btn btn-primary" onClick={handleCreateService}>Create</button>
-                                </form>
-                            </div>
+                                    <div className="col-md-6">
+                                        <div className="position-relative form-group">
+                                            <label>
+                                                Service URL
+                                            </label>
+                                            <input
+                                                onChange={handleInputData}
+                                                name="service_url"
+                                                type="text"
+                                                placeholder="Enter the service url"
+                                                className="form-control"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="position-relative form-group">
+                                            <label>
+                                                Short Description
+                                            </label>
+                                            <input
+                                                onChange={handleInputData}
+                                                name="short_description"
+                                                placeholder="Enter the short description"
+                                                type="text"
+                                                className="form-control"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <div className="position-relative form-group">
+                                            <label>
+                                                Image
+                                            </label>
+                                            <input
+                                                onChange={handleImageData}
+                                                name="image"
+                                                placeholder="Enter the short description"
+                                                type="file"
+                                                className="form-control"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-2 d-flex align-items-center justify-content-center">
+                                        {imageData ? (
+                                            <img src={URL.createObjectURL(imageData)} alt="Uploaded Image" width="100px" />
+                                        ) : null}
+
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="position-relative form-group">
+                                            <label>
+                                                Meta Title
+                                            </label>
+                                            <input
+                                                onChange={handleInputData}
+                                                name="title"
+                                                placeholder="Enter the short description"
+                                                type="text"
+                                                className="form-control"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="position-relative form-group">
+                                            <label>
+                                                Meta Description
+                                            </label>
+                                            <input
+                                                onChange={handleInputData}
+                                                name="meta_description"
+                                                placeholder="Enter the short description"
+                                                type="text"
+                                                className="form-control"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-12">
+                                        <div className="position-relative form-group">
+                                            <label>
+                                                Description
+                                            </label>
+                                            <JoditEditor
+                                                ref={editor}
+                                                value={content}
+                                                config={config}
+                                                tabIndex={1}
+                                                onChange={(newContent) => setContent(newContent)}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <button className="mt-2 px-3 btn btn-primary" onClick={handleCreateService}>Create</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-  )
+        </div>
+    )
 }
 
 export default page

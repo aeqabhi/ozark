@@ -8,10 +8,16 @@ export default function Menu() {
   const currentPath = router.pathname;
 
   const [activeId, setActiveId] = useState(null);
+  const [activeSubId, setActiveSubId] = useState(null);
+
   const handleMenu = (id) => {
+    console.log(id);
     setActiveId((prevId) => (prevId === id ? null : id)); // Toggle the active state
   };
 
+  const handleSubMenu = (id) => {
+    setActiveSubId((prevId) => (prevId === id ? null : id)); // Toggle sub-dropdown
+  };
 
   return (
     <>
@@ -70,42 +76,20 @@ export default function Menu() {
               </li>
 
               <li>
-                <a href="#" onClick={() => handleMenu(1)}>
+                <a href="#" onClick={() => handleMenu(6)}>
                   <i className="metismenu-icon pe-7s-diamond"></i>
-                  Category
+                  Banner
                   <i className="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                 </a>
-                <ul className={activeId === 1 ? 'mm-collapse mm-show' : 'mm-collapse'}>
+                <ul className={activeId === 6 ? 'mm-collapse mm-show' : 'mm-collapse'}>
                   <li>
-                    <Link href="/admin/category/create">
+                    <Link href="/admin/banner/create">
                       <i className="metismenu-icon"></i>
                       Create
                     </Link>
                   </li>
                   <li>
-                    <Link href="/admin/category/view">
-                      <i className="metismenu-icon"></i>
-                      View
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-
-              <li>
-                <a href="#" onClick={() => handleMenu(2)}>
-                  <i className="metismenu-icon pe-7s-diamond"></i>
-                  Subcategory
-                  <i className="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                </a>
-                <ul className={activeId === 2 ? 'mm-collapse mm-show' : 'mm-collapse'}>
-                  <li>
-                    <Link href="/admin/subcategory/create">
-                      <i className="metismenu-icon"></i>
-                      Create
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/admin/subcategory/view">
+                    <Link href="/admin/banner/view">
                       <i className="metismenu-icon"></i>
                       View
                     </Link>
@@ -132,6 +116,75 @@ export default function Menu() {
                       View
                     </Link>
                   </li>
+                </ul>
+              </li>
+
+              <li>
+                <a href="#" onClick={() => handleMenu(7)}>
+                  <i className="metismenu-icon pe-7s-diamond"></i>
+                  About us
+                  <i className="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                </a>
+
+                <ul className={activeId === 7 ? 'mm-collapse mm-show' : 'mm-collapse'}>
+                  <li>
+                    <Link href="/admin/about-us/our-story">
+                      <i className="metismenu-icon"></i>
+                      Our story
+                    </Link>
+                  </li>
+
+                  <li>
+                    <a href="#" onClick={() => handleSubMenu(8)}>
+                      <i className="metismenu-icon pe-7s-diamond"></i>
+                      Leadership team
+                      <i className="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul className={activeSubId === 8 ? 'mm-collapse mm-show' : 'mm-collapse'}>
+                      <li>
+                        <Link href="/admin/about-us/team/create">
+                          <i className="metismenu-icon"></i>
+                          Create
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/admin/about-us/team/view">
+                          <i className="metismenu-icon"></i>
+                          View
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <li>
+                    <Link href="/admin/about-us/vision-and-values">
+                      <i className="metismenu-icon"></i>
+                      Vision & Values
+                    </Link>
+                  </li>
+
+                  <li>
+                    <a href="#" onClick={() => handleSubMenu(9)}>
+                      <i className="metismenu-icon pe-7s-diamond"></i>
+                      Partners
+                      <i className="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul className={activeSubId === 9 ? 'mm-collapse mm-show' : 'mm-collapse'}>
+                      <li>
+                        <Link href="/admin/about-us/team">
+                          <i className="metismenu-icon"></i>
+                          Create
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/admin/services/view">
+                          <i className="metismenu-icon"></i>
+                          View
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
+
                 </ul>
               </li>
 
